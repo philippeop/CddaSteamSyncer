@@ -40,7 +40,7 @@ async function copyFiles(source: string, dest: string, filenames: string[]) {
             Logger.debug('Copy Files: File copied', fromTo)
         }
         catch (e) {
-            Logger.error('Copy Files: Failed with error ', fromTo, e)
+            Logger.error('Copy Files: Failed with error', e)
         }
     }
 }
@@ -70,5 +70,5 @@ async function syncFolders(source: string, dest: string, folders: ManagedFolder[
     }
 }
 
-run().then(() => {}).catch((e) => Logger.error('Error in run:', e))
+run().then(() => {}).catch((e) => Logger.error(e))
 

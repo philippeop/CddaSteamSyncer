@@ -16,14 +16,16 @@ async function run() {
 }
 
 async function check() {
-    const files = await fs.readdir(STEAM_FOLDER);
+    const sourceFiles = await fs.readdir(SOURCE_FOLDER);
     for (const f of KNOWNFOLDERS) {
-        if (!files.includes(f.name)) Logger.error(`Check: Known folder has gone missing: '${f}'`);
+        if (!sourceFiles.includes(f.name) && f.mode == MODE.Override) Logger.error(`Check: Known folder has gone missing: '${f.name}'`);
     }
     for (const f of KNOWNFILES) {
-        if (!files.includes(f)) Logger.error(`Check: Known file has gone missing: '${f}'`);
+        if (!sourceFiles.includes(f)) Logger.error(`Check: Known file has gone missing: '${f}'`);
     }
-    for (const f of files) {
+
+    const steamFiles = await fs.readdir(STEAM_FOLDER);
+    for (const f of steamFiles) {
         if (!KNOWNFILES.includes(f) && !KNOWNFOLDERS.some(kf => kf.name == f) && !IGNORED_FILES.includes(f)) Logger.error(`Check: Unknown folder or file has appeared in the Steam folder: '${f}'`);
     }
 }

@@ -23,6 +23,9 @@ async function check() {
     for (const f of KNOWNFILES) {
         if (!sourceFiles.includes(f)) Logger.error(`Check: Known file has gone missing: '${f}'`);
     }
+    for (const f of sourceFiles) {
+        if (!KNOWNFILES.includes(f) && !KNOWNFOLDERS.some(kf => kf.name == f) && !IGNORED_FILES.includes(f)) Logger.error(`Check: Unknown folder or file has appeared in the source folder: '${f}'`);
+    }
 
     const steamFiles = await fs.readdir(STEAM_FOLDER);
     for (const f of steamFiles) {
